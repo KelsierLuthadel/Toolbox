@@ -74,7 +74,7 @@ class Scan:
         while True:
             try:
                 work = self.queue.get()
-                self.scan(*work)
+                self.scan_port(*work)
             except Empty:
                 return
             finally:
@@ -92,7 +92,7 @@ class Scan:
         status = sock.connect_ex((ip, port))
         return sock, status
 
-    def scan(self, ip, port):
+    def scan_port(self, ip, port):
         (sock, status) = self.connect(ip, port)
 
         details = self.get_banner(sock, status)

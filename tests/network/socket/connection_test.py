@@ -32,7 +32,7 @@ class TestScan(TestCase):
     def test_scan_port_open(self, mock_method):
         mock_method.return_value.connect_ex.return_value = 0
         connection = Scan(address=TestScan.dummy_address, port="1")
-        connection.scan(TestScan.dummy_address, 1)
+        connection.scan_port(TestScan.dummy_address, 1)
 
         self.assert_connection(expected_address=TestScan.dummy_address,
                                expected_port=1,
@@ -46,7 +46,7 @@ class TestScan(TestCase):
         mock_method.return_value.connect_ex.return_value = 0
         mock_method.return_value.recv.return_value = b'banner'
         connection = Scan(address=TestScan.dummy_address, port="1", show_banner=True)
-        connection.scan(TestScan.dummy_address, 1)
+        connection.scan_port(TestScan.dummy_address, 1)
 
         self.assert_connection(expected_address=TestScan.dummy_address,
                                expected_port=1,
@@ -60,7 +60,7 @@ class TestScan(TestCase):
     def test_scan_port_closed(self, mock_method):
         mock_method.return_value.connect_ex.return_value = ECONNREFUSED
         connection = Scan(address=TestScan.dummy_address, port="1")
-        connection.scan(TestScan.dummy_address, 1)
+        connection.scan_port(TestScan.dummy_address, 1)
 
         self.assert_connection(expected_address=TestScan.dummy_address,
                                expected_port=1,
@@ -73,7 +73,7 @@ class TestScan(TestCase):
     def test_scan_udp(self, mock_method):
         mock_method.return_value.connect_ex.return_value = 0
         connection = Scan(address=TestScan.dummy_address, port="1", tcp=False)
-        connection.scan(TestScan.dummy_address, 1)
+        connection.scan_port(TestScan.dummy_address, 1)
 
         self.assert_connection(expected_address=TestScan.dummy_address,
                                expected_port=1,
