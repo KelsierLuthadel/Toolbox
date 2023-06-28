@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import IntEnum
-from typing import List
+from typing import List, Optional
 
 from network.inet.model.port import Port
 
@@ -14,9 +14,9 @@ class IPFamily(IntEnum):
 class NetAddress:
     family: IPFamily
     address: str
-    gateway: str = None
-    netmask: str = None
-    mac_address: str = None
-    broadcast: str = None
-    hostname: str = None
+    gateway: Optional[str] = None
+    netmask:  Optional[str] = None
+    mac_address:  Optional[str] = None
+    broadcast:  Optional[str] = None
+    hostname:  Optional[str] = None
     ports: List[Port] = field(default_factory=list)

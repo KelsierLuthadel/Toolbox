@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import IntEnum
+from typing import Optional
 
 
 class PortType(IntEnum):
@@ -21,5 +22,5 @@ class Port:
     port_number: int
     port_type: PortType
     status: PortStatus
-    status_code: int = None
-    details: str = None
+    status_code: Optional[int] = None
+    details: Optional[str] = None
