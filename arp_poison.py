@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import argparse
-# import argparse
 import socket
 import sys
 import time
