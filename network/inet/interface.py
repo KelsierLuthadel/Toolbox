@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
 import socket
-from typing import List
 
 import netifaces
 import psutil

@@ -1,6 +1,6 @@
+import _socket
 import subprocess
-from _socket import gethostbyname, gethostbyaddr
-import socket
+from socket import socket, error, AF_INET, SOCK_DGRAM
 import re
 
 SINGLE_IP = r'^(?:\d{1,3}\.){3}\d{1,3}$'
@@ -14,11 +14,11 @@ PORT_RANGE = r'^\d+-\d+$'
 # Get the local IP address
 # This will connect to an arbitrary IP address to get the local address
 def get_local_ip():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s = socket(AF_INET, SOCK_DGRAM)
     try:
         s.connect(('1.1.1.1', 1))
         ip = s.getsockname()[0]
-    except socket.error:
+    except error:
         ip = '127.0.0.1'
     finally:
         s.close()
@@ -27,12 +27,12 @@ def get_local_ip():
 
 def get_hostname(host_ip):
     try:
-        target_ip = gethostbyname(host_ip)
+        target_ip = _socket.gethostbyname(host_ip)
     except OSError:
         raise OSError(f"Invalid target {host_ip}")
 
     try:
-        target_host = gethostbyaddr(target_ip)
+        target_host = _socket.gethostbyaddr(target_ip)
         return target_host[0]
     except OSError:
         return target_ip
