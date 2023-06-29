@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-
 import argparse
+# import argparse
 import socket
 import sys
 import time
@@ -38,14 +38,15 @@ def parse_args():
     parser.add_argument('-w', '--wait', action='store', dest='wait_time', default=3, type=float, help=TIMEOUT_HELP)
     parser.add_argument('-r', '--resolve', action='store_true', dest='resolve', default=True, help=RESOLVE_HELP)
 
-    return parser.parse_args()
+    return parser
 
 
 def main():
-    args = parse_args()
+    parser = parse_args()
+    args = parser.parse_args()
 
     if args.target is None or (not is_cidr(args.target) and not is_single_ip(args.target)):
-        args.print_help(sys.stderr)
+        parser.print_help(sys.stderr)
         sys.exit(1)
 
     if 'SUDO_UID' not in os.environ.keys():
@@ -56,7 +57,6 @@ def main():
 
     ip_range = args.target
     wait_time = args.wait_time
-    resolve = args.resolve
     pcap_file = args.out_file
     gateway = args.gateway
     interface_name = args.interface

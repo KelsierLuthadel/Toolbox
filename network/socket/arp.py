@@ -4,7 +4,7 @@ import socket
 from dataclasses import dataclass
 from enum import IntEnum
 
-from scapy.layers.l2 import ARP, arping
+import scapy.layers.l2 as scapy
 from scapy.sendrecv import send, wrpcap, AsyncSniffer
 import threading
 import time
@@ -31,7 +31,7 @@ class ArpResult:
 
 
 def spoof_packet(target_ip, target_mac, spoof_ip):
-    pkt = ARP(op=ArpStatement.IS_AT, pdst=target_ip, hwdst=target_mac, psrc=spoof_ip)
+    pkt = scapy.ARP(op=ArpStatement.IS_AT, pdst=target_ip, hwdst=target_mac, psrc=spoof_ip)
     send(pkt, verbose=False)
 
 
@@ -54,7 +54,7 @@ class Arp:
     def arp_scan(self, ip_range, resolve=False):
         arp_responses = list()
 
-        arp_response = arping(ip_range, verbose=0)[0]
+        arp_response = scapy.arping(ip_range, verbose=0)[0]
 
         for response in arp_response:
             answer = response.answer
