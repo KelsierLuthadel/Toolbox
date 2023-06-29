@@ -141,6 +141,9 @@ class TestScan(TestCase):
         connection = Scan(address=TestScan.dummy_address, port="1,2,3")
         connection.run()
 
+        self.expect_dummy_address(connection)
+
+    def expect_dummy_address(self, connection):
         self.assert_connection(expected_address=TestScan.dummy_address,
                                expected_port=1,
                                expected_status=PortStatus.OPEN,
@@ -166,24 +169,7 @@ class TestScan(TestCase):
         connection = Scan(address=TestScan.dummy_address, port="1-3")
         connection.run()
 
-        self.assert_connection(expected_address=TestScan.dummy_address,
-                               expected_port=1,
-                               expected_status=PortStatus.OPEN,
-                               expected_status_code=0,
-                               expected_port_type=PortType.TCP,
-                               results=connection.results)
-        self.assert_connection(expected_address=TestScan.dummy_address,
-                               expected_port=2,
-                               expected_status=PortStatus.OPEN,
-                               expected_status_code=0,
-                               expected_port_type=PortType.TCP,
-                               results=connection.results)
-        self.assert_connection(expected_address=TestScan.dummy_address,
-                               expected_port=3,
-                               expected_status=PortStatus.OPEN,
-                               expected_status_code=0,
-                               expected_port_type=PortType.TCP,
-                               results=connection.results)
+        self.expect_dummy_address(connection)
 
     @patch.object(Scan, 'create_socket')
     def test_udp(self, mock_method):
@@ -225,24 +211,7 @@ class TestScan(TestCase):
         connection = Scan(address=TestScan.dummy_address, port="1-3,4,9-10,80")
         connection.run()
 
-        self.assert_connection(expected_address=TestScan.dummy_address,
-                               expected_port=1,
-                               expected_status=PortStatus.OPEN,
-                               expected_status_code=0,
-                               expected_port_type=PortType.TCP,
-                               results=connection.results)
-        self.assert_connection(expected_address=TestScan.dummy_address,
-                               expected_port=2,
-                               expected_status=PortStatus.OPEN,
-                               expected_status_code=0,
-                               expected_port_type=PortType.TCP,
-                               results=connection.results)
-        self.assert_connection(expected_address=TestScan.dummy_address,
-                               expected_port=3,
-                               expected_status=PortStatus.OPEN,
-                               expected_status_code=0,
-                               expected_port_type=PortType.TCP,
-                               results=connection.results)
+        self.expect_dummy_address(connection)
         self.assert_connection(expected_address=TestScan.dummy_address,
                                expected_port=4,
                                expected_status=PortStatus.OPEN,
