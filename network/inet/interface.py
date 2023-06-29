@@ -26,18 +26,15 @@ class Interface:
         self.mac = mac
 
     def get_ip4(self):
-        return list(filter(lambda s: s.family == socket.AddressFamily.AF_INET, self.address))
+        return list(filter(lambda s: s.family == IPFamily.IP4, self.address))
 
     def get_ip6(self):
-        return list(filter(lambda s: s.family == socket.AddressFamily.AF_INET6, self.address))
-
-    def get_hw(self):
-        return list(filter(lambda s: s.family == socket.AddressFamily.AF_PACKET, self.address))
+        return list(filter(lambda s: s.family == IPFamily.IP6, self.address))
 
 
 def get_interfaces():
     interfaces = []
-    for name, addresses in net_if_addrs().items():
+    for name, addresses in psutil.net_if_addrs().items():
         interface = Interface(name)
         for address in addresses:
             # If the family is AF_LINK, the address represents the MAC Address
